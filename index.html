@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Search Test</title>
+    <link rel="stylesheet" href="assets/css/font-awesome.css" />
+    <!-- L'intégration repose en partie sur le framework CSS Bulma :
+    - Bulma propose uniquement des styles CSS
+    - Bulma ne gère pas les interactions Javascript contrairement à Bootstrap
+    - Si on veut gérer des interactions, il faudra donc les écrire nous même en Javascript
+    - Documentation : https://bulma.io/documentation/
+  -->
+    <link rel="stylesheet" href="assets/css/bulma.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script defer src="assets/js/components/searchApi.js"></script>
+    <script defer src="assets/js/components/setApi.js"></script>
+    <script defer src="assets/js/app.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <a href=".">
+                    <h1 class="logo__title title is-3">API Search Test</h1>
+                </a>
+            </div>
+            <button id="generate" class="button is-primary is-large">Generate</button>
+            
+        </header>
+        <main>
+            <div class="message is-info is-hidden"></div>
+            <!-- référence -->
+            <div>
+                <a href="https://codex.wordpress.org/Main_Page" target="_blank">codex WordPress</a>
+                <br>
+                <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript" target="_blank">Javascript MDN</a>
+                <br>
+                <a href="https://github.com/public-apis/public-apis" target="_blank">API Public</a>
+            </div>
+            <!-- formulaire -->
+            <div class="task__title">
+                <p class="task__title-label">base URL</p>
+                <input class="input" type="text" placeholder="base API url"
+                name="baseUrl" />
+                <!-- <button class="button is-info">
+                    <span class="icon is-small">
+                        <i class="fa fa-plus"></i>
+                    </span>
+                    <span>Ajouter</span>
+                </button> -->
+            </div>
+            <!-- <div class="task task--add">
+                <form method="post">
+                    <div class="task__content">
+                        <div class="task__category">
+                            <div class="select is-small">
+                                
+                            </div>
+                        </div>
+                        <div class="task__buttons">
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+            <!-- liste des taches -->
+            <h1 class="logo__title title is-3">Résultat(s)</h1>
+            <div class="list"> 
+                <!--                 
+                <div class="task task--todo" data-category="Courses">
+                    <div class="task__content">
+                        <div class="task__title">
+                            <p class="task__title-label">Acheter du pain</p>
+                            <input class="task__title-field input" type="text" value="Acheter du pain"
+                                placeholder="Titre de la tâche" name="title" />
+                        </div>
+                        <div class="task__category">
+                            <p>Courses</p>
+                        </div>
+                        <div class="task__buttons">
+                            <button class="task__button task__button--incomplete button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-step-backward"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--desarchive button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--validate button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--modify button is-warning is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--archive button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-archive"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--delete button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__level" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="task task--todo" data-category="O'Clock">
+                    <div class="task__content">
+                        <div class="task__title">
+                            <p class="task__title-label">Réviser les objets en PHP</p>
+                            <input class="task__title-field input" type="text" value="Réviser les objets en PHP"
+                                placeholder="Titre de la tâche" name="title" />
+                        </div>
+                        <div class="task__category">
+                            <p>O'Clock</p>
+                        </div>
+                        <div class="task__buttons">
+                            <button class="task__button task__button--incomplete button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-step-backward"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--desarchive button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--validate button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--modify button is-warning is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--archive button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-archive"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--delete button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__level" style="width:70%"></div>
+                    </div>
+                </div>
+
+                <div class="task task--complete" data-category="O'Clock">
+                    <div class="task__content">
+                        <div class="task__title">
+                            <p class="task__title-label">Revoir les évènements en JS</p>
+                            <input class="task__title-field input" type="text" value="Revoir les évènements en JS"
+                                placeholder="Titre de la tâche" name="title" />
+                        </div>
+                        <div class="task__category">
+                            <p>O'Clock</p>
+                        </div>
+                        <div class="task__buttons">
+                            <button class="task__button task__button--incomplete button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-step-backward"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--desarchive button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--validate button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--modify button is-warning is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--archive button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-archive"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--delete button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__level" style="width:100%"></div>
+                    </div>
+                </div>
+
+                <div class="task task--todo" data-category="O'Clock">
+                    <div class="task__content">
+                        <div class="task__title">
+                            <p class="task__title-label">Apprendre à apprend</p>
+                            <input class="task__title-field input" type="text" value="Apprendre à apprend"
+                                name="title" />
+                        </div>
+                        <div class="task__category">
+                            <p>O'Clock</p>
+                        </div>
+                        <div class="task__buttons">
+                            <button class="task__button task__button--incomplete button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-step-backward"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--desarchive button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--validate button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--modify button is-warning is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--archive button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-archive"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--delete button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__level" style="width:30%"></div>
+                    </div>
+                </div>
+
+                <div class="task task--archive" data-category="O'Clock">
+                    <div class="task__content">
+                        <div class="task__title">
+                            <p class="task__title-label">Exemple de tâche archivée</p>
+                            <input class="task__title-field input" type="text" value="Exemple de tâche archivée"
+                                placeholder="Titre de la tâche" name="title" />
+                        </div>
+                        <div class="task__category">
+                            <p>O'Clock</p>
+                        </div>
+                        <div class="task__buttons">
+                            <button class="task__button task__button--incomplete button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-step-backward"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--desarchive button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--validate button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--modify button is-warning is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--archive button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-archive"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--delete button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__level" style="width:30%"></div>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- template vide -->
+            <template id="empty-template">
+
+                <div class="task task--todo" data-category="Courses">
+                    <div class="task__content">
+                        <div class="task__title">
+                            <p class="task__title-label">
+                                <!--nom de la tâche-->
+                            </p>
+                            <input class="task__title-field input" type="text" value="<!--nom de la tâche-->"
+                                placeholder="Titre de la tâche" name="title" />
+                        </div>
+                        <div class="task__category">
+                            <p>
+                                <!--nom de la categorie-->
+                            </p>
+                        </div>
+                        <div class="task__buttons">
+                            <button class="task__button task__button--incomplete button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-step-backward"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--desarchive button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--validate button is-success is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--modify button is-warning is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--archive button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-archive"></i>
+                                </span>
+                            </button>
+                            <button class="task__button task__button--delete button is-danger is-small">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__level" style="width:0%"></div>
+                    </div>
+                </div>
+
+            </template>
+
+        </main>
+
+
+
+
+    </div>
+</body>
+
+</html>
