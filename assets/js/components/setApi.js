@@ -5,6 +5,8 @@ const setApi = {
 
         const inputElmt = document.querySelector('input');
         inputElmt.value = localStorage.getItem('baseUrl');
+        const inputElmtRoute = document.querySelector('#route');
+        inputElmtRoute.value = localStorage.getItem('route');
 
         //when I press the enter key
         inputElmt.addEventListener('blur', setApi.disableInputEditOnKeydown);
@@ -29,7 +31,6 @@ const setApi = {
         const inputTitleElmt = event.currentTarget;
         const newInputTitle = inputTitleElmt.value;
         setApi.updateNameInputApi(inputTitleElmt, newInputTitle);
-
     },
 
     //modify name of input
@@ -37,15 +38,15 @@ const setApi = {
 
         // update the 'p' title element with the input value
         inputElmt.textContent = basePathUrl;
-        setApi.setLocalBaseUrl(basePathUrl)
-
+        setApi.setLocalBaseUrl(basePathUrl, 'baseUrl')
 
 
     },
 
-    setLocalBaseUrl: function (basePathUrl) {
-        localStorage.setItem('baseUrl', basePathUrl);
-        console.log(localStorage.getItem('baseUrl'));
+    setLocalBaseUrl: function (localValue, localName) {
+        localStorage.setItem(localName, localValue);
+        console.log(localStorage.getItem(localName));
+        
     }
 
 

@@ -1,10 +1,15 @@
 const searchAPI = {
 
     generateButton: document.querySelector('#generate'),
+    baseUrl: document.querySelector("#baseUrl"),
+    method: document.querySelector("#method"),
+    route: document.querySelector("#route"),
+
 
     init: function () {
         console.log("init searchAPI");
         searchAPI.generateButton.addEventListener('click', searchAPI.addImgFromAPI);
+        searchAPI.route.addEventListener('keydown', searchAPI.addImgFromAPI);
     },
 
     addImgFromAPI: function () {
@@ -13,7 +18,7 @@ const searchAPI = {
 
         // On prépare la configuration de la requête HTTP
         let config = {
-            method: 'GET',
+            method: searchAPI.method.value,
             // mode: 'no-cors',
 
             // headers: {
@@ -25,7 +30,7 @@ const searchAPI = {
         };
 
 
-        console.log(app.apiRootUrl);
+        // console.log(searchAPI.baseUrl.value + searchAPI.event.value);
 
         // fetch(app.url)
         //     .then(function (response) {
@@ -39,7 +44,7 @@ const searchAPI = {
         //     });
 
         // On déclenche la requête HTTP (via le moteur sous-jacent Ajax)
-        fetch(app.apiRootUrl + 'people', config)
+        fetch((searchAPI.baseUrl.value + searchAPI.route.value), config)
             // Ensuite, lorsqu'on reçoit la réponse au format JSON
             .then(function (response) {
                 console.log(response);
@@ -50,7 +55,7 @@ const searchAPI = {
             // Ce résultat au format JS est récupéré en argument ici-même
             .then(function (data) {
                 console.log(data);
-                searchAPI.createImgElement(data.results);
+                searchAPI.createImgElement(data.features);
                 //     // format du retour
                 //     //{"url": "https://random-d.uk/api/images/51.jpg", "message": "Powered by random-d.uk"}
 
@@ -62,13 +67,15 @@ const searchAPI = {
     },
 
     createImgElement: function (result) {
-        console.log("fct add elmt");
+        // console.log("fct add elmt");
 
         const pList = document.querySelector('.list');
+        pList.textContent = '';
+        console.log(result);
 
         result.forEach(element => {
             const pElement = document.createElement('p');
-            pElement.textContent = element.name
+            pElement.textContent = element.properties.label
             pList.appendChild(pElement);
         });
 
